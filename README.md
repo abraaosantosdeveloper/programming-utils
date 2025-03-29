@@ -13,12 +13,10 @@ Inside the folder `/pythonUtilities` you can find:
 -  Also, you can dowload the lib in question [here](https://dev.mysql.com/doc/connector-python/en/connector-python-installation.html).
 
 ## Stay tuned for next updates!
-|--|--|
 |Repo Author|[Abraão F. Santos](https://github.com/abraaosantosdeveloper)|
 |--|--|
 |Author role|Student|
-|--|--|
-|Slogan|What I do is Win!|
+|Slogan|"*What I do is Win!*"|
 ---
 ###### "*O sucesso nasce do querer, da determinação e persistência em se chegar a um objetivo. Mesmo não atingindo o alvo, quem busca e vence obstáculos, no mínimo fará coisas admiráveis*." 
 ###### "*Success comes from desire, determination and persistence in reaching a goal. Even if you don't reach your target, those who strive for it and overcome obstacles will at least achieve admirable things.*"
