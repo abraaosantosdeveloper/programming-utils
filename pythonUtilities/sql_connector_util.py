@@ -33,12 +33,15 @@ db = "db_name"
 # This is the primary function to execute
 # the basics: set the connection
 def con():
-    cnx = mysql.connector.connect(host=hostname,
-    port=port,
-    user=user,
-    password=pswd,
-    database=db)
-    return cnx
+    try:
+        return mysql.connector.connect(host=hostname,
+        port=port,
+        user=user,
+        password=pswd,
+        database=db)
+    except mysql.connector.Error as err:
+        print(f"[ERROR] Database connection failed: {err}")
+        return None
 
 # Use this function when you need to update
 # the information in the DB or insert new data
@@ -54,13 +57,19 @@ def con():
 
 def executeCommand(command:str, params=None):
     cnx = con()
-    cursor = cnx.cursor()
-    if params:
-        cursor.execute(command, params)
-    else:
-        cursor.execute(command)
-    cnx.commit()
-    cnx.close()
+    if not cnx:
+        return
+    try:
+        cursor = cnx.cursor()
+        cursor.execute(command, params if params else())
+
+        print(f"Running query: {command} with params: {params}")
+
+        cnx.commit()
+    except mysql.connector.Error as err:
+        print(f"[ERROR] Command failed: {err}")
+    finally:
+        cnx.close()
 
 # This function just execute a data request.
 # You can use it when you need to return any data
@@ -81,24 +90,36 @@ def executeCommand(command:str, params=None):
 
 def executeQuery(query:str, params=None) -> list:
     cnx = con()
-    cursor = cnx.cursor()
-    if params:
-        cursor.execute(query, params)
-    else:
-        cursor.execute(query)
-    result = cursor.fetchall()
-    cnx.close()
+    if not cnx:
+        print(f"Connection error")
+        return []
+    
+    result = []
+    
+    try:
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(query, params if params else ())
+        result = cursor.fetchall()
+    except mysql.connector.Error as err:
+        print(f"[ERROR] Command failed: {err}")
+    finally:
+        cnx.close()
     return result
-
-# Use this function when you want the app to return the first position data in query only
 
 def executeSingleFetchQuery(query:str, params=None):
     cnx = con()
-    cursor = cnx.cursor()
-    if params:
-        cursor.execute(query, params)
-    else:
-        cursor.execute(query)
-    result = cursor.fetchone()
-    cnx.close()
+    if not cnx:
+        print(f"Connection error")
+        return []
+    
+    result = []
+
+    try:
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(query, params if params else ())
+        result = cursor.fetchone()
+    except mysql.connector.Error as err:
+        print(f"[ERROR] Command failed: {err}")
+    finally:
+        cnx.close()
     return result
