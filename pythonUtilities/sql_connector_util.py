@@ -62,9 +62,6 @@ def executeCommand(command:str, params=None):
     try:
         cursor = cnx.cursor()
         cursor.execute(command, params if params else())
-
-        print(f"Running query: {command} with params: {params}")
-
         cnx.commit()
     except mysql.connector.Error as err:
         print(f"[ERROR] Command failed: {err}")
