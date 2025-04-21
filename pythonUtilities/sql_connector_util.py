@@ -42,10 +42,23 @@ def con():
 
 # Use this function when you need to update
 # the information in the DB or insert new data
-def executeCommand(command:str):
+
+# This function was updated
+
+# def executeCommand(command:str):
+#     cnx = con()
+#     cursor = cnx.cursor()
+#     cursor.execute(command)
+#     cnx.commit()
+#     cnx.close()
+
+def executeCommand(command:str, params=None):
     cnx = con()
     cursor = cnx.cursor()
-    cursor.execute(command)
+    if params:
+        cursor.execute(command, params)
+    else:
+        cursor.execute(command)
     cnx.commit()
     cnx.close()
 
@@ -55,10 +68,37 @@ def executeCommand(command:str):
 # The only difference between this function 
 # and the one above is the use of the return 
 # and fetch all statements.
-def executeQuery(query:str) -> list:
+
+# This function was updated
+
+# def executeQuery(query:str) -> list:
+#     cnx = con()
+#     cursor = cnx.cursor()
+#     cursor.execute(query)
+#     result = cursor.fetchall()
+#     cnx.close()
+#     return result
+
+def executeQuery(query:str, params=None) -> list:
     cnx = con()
     cursor = cnx.cursor()
-    cursor.execute(query)
+    if params:
+        cursor.execute(query, params)
+    else:
+        cursor.execute(query)
     result = cursor.fetchall()
+    cnx.close()
+    return result
+
+# Use this function when you want the app to return the first position data in query only
+
+def executeSingleFetchQuery(query:str, params=None):
+    cnx = con()
+    cursor = cnx.cursor()
+    if params:
+        cursor.execute(query, params)
+    else:
+        cursor.execute(query)
+    result = cursor.fetchone()
     cnx.close()
     return result
